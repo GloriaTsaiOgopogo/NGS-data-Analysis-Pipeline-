@@ -10,3 +10,7 @@ the steps that the script include for the analysis are :
 3. Mapping (Tophat2)
 4. Read counts (HTseq)
 5. differential expression analysis (DESeq2)
+
+
+see the file ROman_data_new for the newest scripts for analysis of paired end data!
+
