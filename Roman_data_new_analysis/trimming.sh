@@ -1,3 +1,4 @@
+#!/bin/bash
 ### script for trimming data after quality check.
 #
 #
@@ -6,7 +7,7 @@
 #
 echo "   `tput bold`checking for illumina adapter('AGATCGGAAGAGC') in : PAIR1`tput sgr0`"
 echo " "
-for file1 in /home/talwar/pool-talwar/RNA-Seq_pipeline/Raw_data_files/pair1/*.fastq
+for file1 in ~/pool-talwar/RNA-Seq_pipeline/Raw_data_files/pair1/*.fastq
 do
 PAIR1=$(echo $file1 | sed -E 's/\/home\/talwar\/pool-talwar\/RNA-Seq\_pipeline\/Raw\_data\_files\/pair1\/(.*)/\1/')
 echo "    `tput bold`$PAIR1`tput sgr0`"
@@ -54,44 +55,33 @@ echo "    `tput bold`checking for parameter file now`tput sgr0`"
 
 [ -f ~/pool-talwar/RNA-Seq_pipeline/scripts/quality_trimming_parameters.txt ] && echo "    `tput bold`parameters file found!`tput sgr0`" || echo "    parameter file Not found!"
 #
-#    For Mate 1 :
+#    For paired end reads :
 echo " "
 echo " "
-echo "    `tput bold`Running Cutadapt for MATE1:`tput sgr0`"
-for file1 in /home/talwar/pool-talwar/RNA-Seq_pipeline/Raw_data_files/pair1/*.fastq
+echo "    `tput bold`Running Cutadapt for PE Mates:`tput sgr0`"
+for file1 in ~/pool-talwar/RNA-Seq_pipeline/Raw_data_files/pair1/*.fastq
 do
 while read f1 f2 f3
-do 
+do
 echo "    `tput bold`Quality cutoff value is: $f3`tput sgr0`"
 echo " "
 f3=$f3
 PAIR1=$(echo $file1 | sed -E 's/\/home\/talwar\/pool-talwar\/RNA-Seq\_pipeline\/Raw\_data\_files\/pair1\/(.*)/\1/')
-echo "    ~/bin/cutadapt --quality-cutoff $f3 --quiet -o ~/pool-talwar/RNA-Seq_pipeline/Quality_trimmed_files/$PAIR1\_trimmed.fastq $file1"
-done < quality_trimming_parameters.txt
+PAIR2=$(echo $file1 | sed -E 's/\/home\/talwar\/pool-talwar\/RNA-Seq\_pipeline\/Raw\_data\_files\/pair1\/(.*)\_1/\1\_2/g')
+#
+#
+echo "    $PAIR1"
+echo "    $PAIR2"
+echo "cutadapt -q $f3 -m 25 -o ~/pool-talwar/RNA-Seq_pipeline/Quality_trimmed_files/$PAIR1\_trimmed.fastq -p ~/pool-talwar/RNA-Seq_pipeline/Quality_trimmed_files/$PAIR2\_trimmed.fastq $file1 ~/pool-talwar/RNA-Seq_pipeline/Raw_data_files/pair2/$PAIR2"
+done < ~/pool-talwar/RNA-Seq_pipeline/scripts/quality_trimming_parameters.txt
+#
+# Renaming files for mapping step:
+#
+#rename 's/.fastq_trimmed.fastq/_trimmed.fastq/' ~/pool-talwar/RNA-Seq_pipeline/Quality_trimmed_files/*.fastq
+#mv ~/pool-talwar/RNA-Seq_pipeline/Quality_trimmed_files/*_1_trimmed.fastq ~/pool-talwar/RNA-Seq_pipeline/Quality_trimmed_files/Pair1/
+#mv ~/pool-talwar/RNA-Seq_pipeline/Quality_trimmed_files/*_2_trimmed.fastq ~/pool-talwar/RNA-Seq_pipeline/Quality_trimmed_files/Pair2/
 done
 #
 #
 #
-#
-#    For MATE2:
-echo "    `tput bold`Running Cutadapt for MATE2:`tput sgr0`"
-for file2 in ~/pool-talwar/RNA-Seq_pipeline/Raw_data_files/pair2/*.fastq
-do
-PAIR2=$(echo $file2 | sed -E 's/\/home\/talwar\/pool-talwar\/RNA-Seq\_pipeline\/Raw\_data\_files\/pair2\/(.*)/\1/')
-while read f1 f2 f3
-do 
-f3=$f3
-echo "    ~/bin/cutadapt --quality-cutoff $f3 --quiet -o ~/pool-talwar/RNA-Seq_pipeline/Quality_trimmed_files/$PAIR2\_trimmed.fastq $file2"
-done < quality_trimming_parameters.txt
-done
-#
-#
-echo " "
-echo "    `tput bold`Quality trimming has ended !"
-echo "    The output files can be found at : ~/pool-talwar/RNA-Seq_pipeline/Quality_trimmed_files/"
-echo " "
-tput sgr0
-#
-#
-#
-#
+#################                XXXXXX-------------------------XXXXXXXXXX                  ##########################
