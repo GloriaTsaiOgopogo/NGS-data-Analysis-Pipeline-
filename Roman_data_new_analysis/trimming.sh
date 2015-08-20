@@ -22,7 +22,7 @@ for file2 in ~/pool-talwar/RNA-Seq_pipeline/Raw_data_files/pair2/*.fastq
 do
 PAIR2=$(echo $file2 | sed -E 's/\/home\/talwar\/pool-talwar\/RNA-Seq\_pipeline\/Raw\_data\_files\/pair2\/(.*)/\1/')
 echo "    `tput bold`$PAIR2`tput sgr0`"
-#grep --colour=always -o 'AGATCGGAAGAGC' $file2 | wc -l
+grep --colour=always -o 'AGATCGGAAGAGC' $file2 | wc -l
 done
 #
 #
@@ -72,14 +72,14 @@ PAIR2=$(echo $file1 | sed -E 's/\/home\/talwar\/pool-talwar\/RNA-Seq\_pipeline\/
 #
 echo "    $PAIR1"
 echo "    $PAIR2"
-echo "cutadapt -q $f3 -m 25 -o ~/pool-talwar/RNA-Seq_pipeline/Quality_trimmed_files/$PAIR1\_trimmed.fastq -p ~/pool-talwar/RNA-Seq_pipeline/Quality_trimmed_files/$PAIR2\_trimmed.fastq $file1 ~/pool-talwar/RNA-Seq_pipeline/Raw_data_files/pair2/$PAIR2"
+cutadapt -q $f3 -m 25 -o ~/pool-talwar/RNA-Seq_pipeline/Quality_trimmed_files/$PAIR1\_trimmed.fastq -p ~/pool-talwar/RNA-Seq_pipeline/Quality_trimmed_files/$PAIR2\_trimmed.fastq $file1 ~/pool-talwar/RNA-Seq_pipeline/Raw_data_files/pair2/$PAIR2
 done < ~/pool-talwar/RNA-Seq_pipeline/scripts/quality_trimming_parameters.txt
 #
 # Renaming files for mapping step:
 #
-#rename 's/.fastq_trimmed.fastq/_trimmed.fastq/' ~/pool-talwar/RNA-Seq_pipeline/Quality_trimmed_files/*.fastq
-#mv ~/pool-talwar/RNA-Seq_pipeline/Quality_trimmed_files/*_1_trimmed.fastq ~/pool-talwar/RNA-Seq_pipeline/Quality_trimmed_files/Pair1/
-#mv ~/pool-talwar/RNA-Seq_pipeline/Quality_trimmed_files/*_2_trimmed.fastq ~/pool-talwar/RNA-Seq_pipeline/Quality_trimmed_files/Pair2/
+rename 's/.fastq_trimmed.fastq/_trimmed.fastq/' ~/pool-talwar/RNA-Seq_pipeline/Quality_trimmed_files/*.fastq
+mv ~/pool-talwar/RNA-Seq_pipeline/Quality_trimmed_files/*_1_trimmed.fastq ~/pool-talwar/RNA-Seq_pipeline/Quality_trimmed_files/Pair1/
+mv ~/pool-talwar/RNA-Seq_pipeline/Quality_trimmed_files/*_2_trimmed.fastq ~/pool-talwar/RNA-Seq_pipeline/Quality_trimmed_files/Pair2/
 done
 #
 #
