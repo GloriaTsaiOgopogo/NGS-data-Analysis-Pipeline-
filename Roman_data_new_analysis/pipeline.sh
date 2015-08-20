@@ -43,7 +43,7 @@ echo "    `tput bold`The analysis will be performed in this sequence:
 #
 #
 echo " "
-echo "Directory structure : 
+echo "Creating Directory structure :" 
 mkdir -p ~/pool-talwar/RNA-Seq_pipeline
 mkdir -p ~/pool-talwar/RNA-Seq_pipeline/Quality_control
 mkdir -p ~/pool-talwar/RNA-Seq_pipeline/Quality_control/fastqc
@@ -57,7 +57,7 @@ mkdir -p ~/pool-talwar/RNA-Seq_pipeline/scripts
 mkdir -p ~/pool-talwar/RNA-Seq_pipeline/Mapping
 mkdir -p ~/pool-talwar/RNA-Seq_pipeline/Mapping/HT-Seq_counts
 mkdir -p ~/pool-talwar/RNA-Seq_pipeline/Mapping/featurecounts
-mkdir -p ~/pool-talwar/RNA-Seq_pipeline/Differential_Expression"
+mkdir -p ~/pool-talwar/RNA-Seq_pipeline/Differential_Expression
 #
 #
 #
@@ -178,7 +178,4 @@ echo " "
 fi
 #
 ##
-#
-#
-#
 #
